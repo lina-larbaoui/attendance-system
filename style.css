@@ -486,3 +486,11 @@ footer {
     max-height: 250px;
   }
 }
+/* ===== HOVER HIGHLIGHT STYLES ===== */
+.row-hover {
+    background-color: rgba(67, 97, 238, 0.1) !important;
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}

@@ -387,3 +387,19 @@ function showNotification(message, type) {
     }, 300);
   }, 3000);
 }
+// =============================================
+// HOVER HIGHLIGHT FUNCTIONALITY
+// =============================================
+
+// Highlight row on mouse hover
+$("#attendanceTable").on("mouseenter", "tr", function() {
+    // Only apply to data rows (not header rows)
+    if ($(this).find('td').length > 0) {
+        $(this).addClass("row-hover");
+    }
+});
+
+// Remove highlight when mouse leaves
+$("#attendanceTable").on("mouseleave", "tr", function() {
+    $(this).removeClass("row-hover");
+});
