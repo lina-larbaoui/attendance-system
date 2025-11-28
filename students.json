@@ -1,0 +1,17 @@
+[
+    {
+        "student_id": "01",
+        "name": "Lina",
+        "group": "5"
+    },
+    {
+        "student_id": "01",
+        "name": "lina",
+        "group": "5"
+    },
+    {
+        "student_id": "01",
+        "name": "rania",
+        "group": "3"
+    }
+]
