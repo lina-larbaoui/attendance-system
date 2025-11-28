@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-pattern"></div>
+  
+  <div class="app">
+    <nav>
+      <div class="nav-inner">
+        <div class="logo">
+          <div class="logo-box"><i class="fa-solid fa-graduation-cap"></i></div>
+          <span class="logo-text">Attendance System</span>
+        </div>
+        <div class="nav-menu">
+          <button class="nav-btn active" onclick="showPage('attendance')">
+            <i class="fa-solid fa-clipboard-list"></i> Attendance
+          </button>
+          <button class="nav-btn" onclick="showPage('add')">
+            <i class="fa-solid fa-user-plus"></i> Add Student
+          </button>
+          <button class="nav-btn logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- ATTENDANCE PAGE -->
+      <div id="attendance" class="page active">
+        <div class="page-header">
+          <h1>Student Attendance</h1>
+          <p>Track and manage student attendance and participation in sessions</p>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <?php if (!empty($notification)): ?>
+    <?php echo $notification; ?>
+<?php endif; ?>
+            <h2 class="card-title">
+              <span class="icon-box"><i class="fa-solid fa-table-cells"></i></span>
+              Attendance Records
+            </h2>
+            <div class="actions">
+              <button class="btn btn-main" onclick="calculateAttendance()">
+                <i class="fa-solid fa-calculator"></i> Calculate
+              </button>
+              <button class="btn btn-success" onclick="showReport()">
+                <i class="fa-solid fa-chart-column"></i> Show Report
+              </button>
+              <button class="btn btn-warning" id="highlightBtn">
+                <i class="fa-solid fa-star"></i> Highlight Excellent
+              </button>
+              <button class="btn btn-ghost" id="resetColorsBtn">
+                <i class="fa-solid fa-palette"></i> Reset Colors
+              </button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchInput" placeholder="Search by Name (Last or First Name)">
+            </div>
+            <div class="sort-btns">
+              <button class="btn btn-ghost" onclick="sortByAbsences()">
+                <i class="fa-solid fa-arrow-up-short-wide"></i> Sort by Absences (Ascending)
+              </button>
+              <button class="btn btn-ghost" onclick="sortByParticipation()">
+                <i class="fa-solid fa-arrow-down-wide-short"></i> Sort by Participation (Descending)
+              </button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="attendanceTable">
+              <thead>
+                <tr>
+                  <th rowspan="2">Last Name</th>
+                  <th rowspan="2">First Name</th>
+                  <th colspan="2">Session 1</th>
+                  <th colspan="2">Session 2</th>
+                  <th colspan="2">Session 3</th>
+                  <th colspan="2">Session 4</th>
+                  <th colspan="2">Session 5</th>
+                  <th colspan="2">Session 6</th>
+                  <th rowspan="2">Absences</th>
+                  <th rowspan="2">Participation</th>
+                  <th rowspan="2">Message</th>
+                </tr>
+                <tr>
+                  <th>P</th><th>Pa</th>
+                  <th>P</th><th>Pa</th>
+                  <th>P</th><th>Pa</th>
+                  <th>P</th><th>Pa</th>
+                  <th>P</th><th>Pa</th>
+                  <th>P</th><th>Pa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ahmed</td><td>Sara</td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td>0</td><td>0</td><td></td>
+                </tr>
+                <tr>
+                  <td>Yacine</td><td>Ali</td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td>0</td><td>0</td><td></td>
+                </tr>
+                <tr>
+                  <td>Houcine</td><td>Rania</td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td><input type="checkbox"></td><td><input type="checkbox"></td>
+                  <td>0</td><td>0</td><td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sort-info">
+            <i class="fa-solid fa-circle-info"></i>
+            <span id="sortMessage">No sorting applied</span>
+          </div>
+        </div>
+
+        <div id="reportSection" class="card">
+          <div class="card-head">
+            <h2 class="card-title">
+              <span class="icon-box"><i class="fa-solid fa-chart-bar"></i></span>
+              Attendance Report
+            </h2>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+              <h3 id="totalStudents">0</h3>
+              <p>Total Students</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fa-solid fa-user-check"></i></div>
+              <h3 id="studentsPresent">0</h3>
+              <p>Present Students</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="fa-solid fa-hand"></i></div>
+              <h3 id="studentsParticipated">0</h3>
+              <p>Participated Students</p>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="reportChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD STUDENT PAGE -->
+      <div id="add" class="page">
+        <div class="page-header">
+          <h1>Add New Student</h1>
+          <p>Register a new student to the attendance tracking system</p>
+        </div>
+
+        <div class="form-wrap">
+          <div class="card">
+            <div class="card-head">
+              <h2 class="card-title">
+                <span class="icon-box"><i class="fa-solid fa-user-plus"></i></span>
+                Student Information
+              </h2>
+            </div>
+            <form id="studentForm">
+              <div class="form-group">
+                <label>Student ID</label>
+                <div class="input-box">
+                  <i class="fa-solid fa-id-card"></i>
+                  <input type="text" id="studentId" placeholder="Enter student ID" required>
+                </div>
+                <div id="idError" class="error"></div>
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <div class="input-box">
+                  <i class="fa-solid fa-user"></i>
+                  <input type="text" id="lastName" placeholder="Enter last name" required>
+                </div>
+                <div id="lastError" class="error"></div>
+              </div>
+              <div class="form-group">
+                <label>First Name</label>
+                <div class="input-box">
+                  <i class="fa-solid fa-user"></i>
+                  <input type="text" id="firstName" placeholder="Enter first name" required>
+                </div>
+                <div id="firstError" class="error"></div>
+              </div>
+              <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-box">
+                  <i class="fa-solid fa-envelope"></i>
+                  <input type="email" id="email" placeholder="Enter email address" required>
+                </div>
+                <div id="emailError" class="error"></div>
+              </div>
+              <button type="submit" class="btn btn-main" style="width:100%;justify-content:center;padding:18px;">
+                <i class="fa-solid fa-plus-circle"></i> Add Student
+              </button>
+              <div id="confirmation" class="success-msg">
+                <i class="fa-solid fa-circle-check"></i> Student added successfully!
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 <span>Attendance System</span> - Advanced Web Programming Tutorial</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
